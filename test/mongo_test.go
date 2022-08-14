@@ -7,13 +7,13 @@ import (
 	"testing"
 
 	"github.com/faridlan/go-mongo/app"
-	"github.com/faridlan/go-mongo/model"
+	model "github.com/faridlan/go-mongo/model/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // Insert To MongoDB
-func insert() {
+func insert() model.Product {
 
 	db, err := app.Connect()
 	if err != nil {
@@ -21,23 +21,27 @@ func insert() {
 	}
 
 	product := model.Product{
-		Id:       primitive.NewObjectID(),
-		Name:     "Mie Success",
-		Price:    2500,
-		Category: "Mie",
+		Name:     "Vape Puma 200W",
+		Price:    300000,
+		Category: "vape",
 		Stock:    10,
 	}
 
-	_, err = db.Collection("products").InsertOne(context.Background(), product)
+	result, err := db.Collection("products").InsertOne(context.Background(), product)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	fmt.Println("Insert Success")
+	newId := result.InsertedID
+	product.Id = newId.(primitive.ObjectID)
+
+	// fmt.Println("Insert Success")
+	return product
 }
 
 func TestInsert(t *testing.T) {
-	insert()
+	p := insert()
+	fmt.Println(p)
 }
 
 // Find To MongoDB
