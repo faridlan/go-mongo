@@ -44,5 +44,19 @@ func (repository *ProductRepositoryImpl) Find(ctx context.Context, productId pri
 }
 
 func (repository *ProductRepositoryImpl) FindAll(ctx context.Context) ([]domain.Product, error) {
-	panic("not implemented") // TODO: Implement
+	cur, err := repository.DB.Collection("products").Find(ctx, bson.D{})
+	if err != nil {
+		return nil, errors.New("product not found")
+	}
+
+	products := []domain.Product{}
+
+	for cur.Next(ctx) {
+		product := domain.Product{}
+		cur.Decode(&product)
+
+		products = append(products, product)
+	}
+
+	return products, nil
 }
