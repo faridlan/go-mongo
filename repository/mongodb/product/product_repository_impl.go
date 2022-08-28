@@ -32,6 +32,15 @@ func (repository *ProductRepositoryImpl) Save(ctx context.Context, product domai
 	return product, nil
 }
 
+func (repository *ProductRepositoryImpl) Update(ctx context.Context, product domain.Product) (domain.Product, error) {
+	_, err := repository.DB.Collection("products").UpdateOne(ctx, product.Id, product)
+	if err != nil {
+		return product, err
+	}
+
+	return product, nil
+}
+
 func (repository *ProductRepositoryImpl) Find(ctx context.Context, productId primitive.ObjectID) (domain.Product, error) {
 	sr := repository.DB.Collection("products").FindOne(ctx, bson.M{"_id": productId})
 	product := domain.Product{}

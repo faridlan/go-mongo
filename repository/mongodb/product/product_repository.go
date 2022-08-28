@@ -9,6 +9,7 @@ import (
 
 type ProductRepository interface {
 	Save(ctx context.Context, product domain.Product) (domain.Product, error)
+	Update(ctx context.Context, product domain.Product) (domain.Product, error)
 	Find(ctx context.Context, productId primitive.ObjectID) (domain.Product, error)
 	FindAll(ctx context.Context) ([]domain.Product, error)
 }

@@ -8,6 +8,15 @@ db.products.updateOne({
 })
 
 db.products.updateOne({
+    _id: ObjectId("62f8e1071479945330afc6c4")
+}, {
+    $set: {
+        price: 10000000,
+        stock: 20
+    }
+})
+
+db.products.updateOne({
     _id: 1
 }, {
     $set: {
