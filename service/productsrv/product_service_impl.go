@@ -35,6 +35,7 @@ func (service *ProductServiceImpl) Create(ctx context.Context, request productwe
 	return model.ToProductResponse(product)
 }
 
+//find
 func (service *ProductServiceImpl) Find(ctx context.Context, productId string) productweb.ProductResponse {
 	newProductId, err := primitive.ObjectIDFromHex(productId)
 	helper.PanicIfError(err)
